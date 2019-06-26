@@ -28,15 +28,21 @@ CONFIG += c++11
 @HEADERS = $$files(src/*.h)@
 @FORMS = $$files(src/forms/*.ui)@
 
-SOURCES += src/*.cpp \
+SOURCES += src/crashwindow.cpp \
+    src/mainwindow.cpp \
+    src/startupdebug.cpp \
+    src/main.cpp\
     src/logger.cpp \
     src/theapp.cpp
 
-HEADERS += src/*.h \ 
+HEADERS += src/crashwindow.h \
+    src/mainwindow.h \
+    src/startupdebug.h \
     src/logger.h \
     src/theapp.h
 
-FORMS += src/forms/*.ui
+FORMS += src/forms/crashwindow.ui \
+    src/forms/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

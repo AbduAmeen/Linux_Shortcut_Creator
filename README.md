@@ -1,4 +1,4 @@
-# Linux_Shortcut_Creator
+# Linux Shortcut Creator
 Creates shortcuts for the desktop on linux
 
 Steps to create the project:

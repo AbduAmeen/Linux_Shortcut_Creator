@@ -1,2 +1,8 @@
+#Ignore
+
 *.pro.user
 *.pro.user.b8ecd0a.21
+
+#Allow
+
+!*.pro

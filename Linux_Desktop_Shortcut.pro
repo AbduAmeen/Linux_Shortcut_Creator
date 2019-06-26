@@ -24,9 +24,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-SOURCES += src/*.cpp
+@SOURCES = $$files(src/*.cpp)@
+@HEADERS = $$files(src/*.h)@
+@FORMS = $$files(src/forms/*.ui)@
 
-HEADERS += src/*.h 
+SOURCES += src/*.cpp \
+    src/logger.cpp \
+    src/theapp.cpp
+
+HEADERS += src/*.h \ 
+    src/logger.h \
+    src/theapp.h
 
 FORMS += src/forms/*.ui
 

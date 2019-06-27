@@ -1,12 +1,13 @@
+#include "theapp.h"
 #include "mainwindow.h"
 #include "startupdebug.h"
-#include <QApplication>
-
+#include "logger.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    StartupDebug debug;
+    auto logger = std::make_shared<Logger>();
+    TheApp a(argc, argv, logger);
+    StartupDebug debug(logger);
     debug.Run();
 
     MainWindow w;

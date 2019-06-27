@@ -1,7 +1,7 @@
 #include "startupdebug.h"
 
 
-StartupDebug::StartupDebug() {
+StartupDebug::StartupDebug(std::shared_ptr<Logger> ptr) : m_logger_ptr(ptr){
 
 }
 
@@ -15,16 +15,10 @@ bool StartupDebug::CheckForCrashes() {
 }
 
 bool StartupDebug::CheckForLogsDir() {
-    QString path = AppPath.path();
+    m_LogDir = m_logger_ptr->LogPath();
 
-    path.chop(path.lastIndexOf("Shortcut"));
-    AppPath = path;
-    path.append("\\logs");
-    LogDir = path;
-
-    if (!LogDir.exists()){
-        AppPath.mkdir("Logs");
-        //return false;
+    if (!m_LogDir.exists()){
+        return false;
     }
     return true;
 }
@@ -36,5 +30,4 @@ void StartupDebug::Run() {
 
     CrashWindow* window = CreateDebugWindow();
     window->exec();
-
 }

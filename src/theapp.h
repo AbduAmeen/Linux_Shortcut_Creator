@@ -1,11 +1,19 @@
 #ifndef THEAPP_H
 #define THEAPP_H
 
+#include <QObject>
+#include <QApplication>
+#include <memory>
 
-class TheApp
-{
+#include "logger.h"
+
+class TheApp : public QApplication {
+    Q_OBJECT
 public:
-    TheApp();
+    TheApp(int &argc, char **argv, std::shared_ptr<Logger> ptr);
+    void Setlogger(std::shared_ptr<Logger> ptr);
+private:
+    std::shared_ptr<Logger> m_logger_ptr;
 };
 
 #endif // THEAPP_H

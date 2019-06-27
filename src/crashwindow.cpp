@@ -8,7 +8,6 @@ CrashWindow::CrashWindow(QWidget *parent) :
     ui(new Ui::CrashWindow)
 {
     ui->setupUi(this);
-    setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), qApp->desktop()->availableGeometry()));
 }
 
 CrashWindow::~CrashWindow()

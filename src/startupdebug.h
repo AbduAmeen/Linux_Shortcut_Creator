@@ -2,25 +2,38 @@
 #define STARTUPDEBUG_H
 
 #include <QWidget>
+#include <QDateTime>
+#include <QFileInfo>
+#include <QList>
+#include <QFileInfoList>
 #include <QDir>
 #include <memory>
+#include <tuple>
 
 #include "crashwindow.h"
 #include "logger.h"
 
-class StartupDebug
-{
+namespace StartupDebug {
+
+class StartupDebug {
 public:
-    StartupDebug(std::shared_ptr<Logger> ptr);
-    CrashWindow* CreateDebugWindow();
+    StartupDebug(std::shared_ptr<Logger::Logger> ptr);
+    void Run();
     bool CheckForCrashes();
     bool CheckForLogsDir();
-    void Run();
-
+    CrashWindow* CreateDebugWindow();
+    //returns null if no file is found
+    QFileInfo GetOldestLogFile(QFileInfoList list);
+    //returns null if no file is found
+    QFileInfo GetLastLogFile(QFileInfoList list);
 private:
+    void Crash();
+    void CleanLogFiles();
+    std::shared_ptr<Logger::Logger> m_logger_ptr;
+    QFileInfo m_lastlogfile;
+    QDateTime ParseLogName(QString name);
     QDir m_AppPath;
     QDir m_LogDir;
-    std::shared_ptr<Logger> m_logger_ptr;
 };
-
+}
 #endif // STARTUPDEBUG_H

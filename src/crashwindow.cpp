@@ -1,5 +1,4 @@
 #include <QDesktopWidget>
-
 #include "crashwindow.h"
 #include "ui_crashwindow.h"
 

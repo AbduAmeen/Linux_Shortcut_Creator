@@ -14,8 +14,8 @@ class CrashWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit CrashWindow(QWidget *parent = 0);
-    ~CrashWindow();
+    explicit CrashWindow(QWidget *parent = nullptr);
+    ~CrashWindow() override;
 
 private:
     void closeEvent(QCloseEvent *event) override;

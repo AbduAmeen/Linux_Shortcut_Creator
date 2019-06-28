@@ -10,10 +10,10 @@
 class TheApp : public QApplication {
     Q_OBJECT
 public:
-    TheApp(int &argc, char **argv, std::shared_ptr<Logger> ptr);
-    void Setlogger(std::shared_ptr<Logger> ptr);
+    TheApp(int &argc, char **argv, std::shared_ptr<Logger::Logger> ptr);
+    void Setlogger(std::shared_ptr<Logger::Logger> ptr);
 private:
-    std::shared_ptr<Logger> m_logger_ptr;
+    std::shared_ptr<Logger::Logger> m_logger_ptr;
 };
 
 #endif // THEAPP_H

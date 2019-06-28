@@ -5,9 +5,9 @@
 
 int main(int argc, char *argv[])
 {
-    auto logger = std::make_shared<Logger>();
+    auto logger = std::make_shared<Logger::Logger>();
     TheApp a(argc, argv, logger);
-    StartupDebug debug(logger);
+    StartupDebug::StartupDebug debug(logger);
     debug.Run();
 
     MainWindow w;

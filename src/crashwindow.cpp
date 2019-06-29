@@ -2,8 +2,10 @@
 #include "crashwindow.h"
 #include "ui_crashwindow.h"
 
-CrashWindow::CrashWindow(QWidget *parent) :
+CrashWindow::CrashWindow(std::shared_ptr<Logger::Logger> ptr, QFileInfo log, QWidget *parent) :
     QDialog(parent),
+    m_logger_ptr(ptr),
+    m_Log(log),
     ui(new Ui::CrashWindow)
 {
     ui->setupUi(this);

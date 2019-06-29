@@ -7,11 +7,6 @@ StartupDebug::StartupDebug(std::shared_ptr<Logger::Logger> ptr) : m_logger_ptr(p
     m_LogDir = m_logger_ptr->GetLogPath();
 }
 
-CrashWindow* StartupDebug::CreateDebugWindow() {
-    CrashWindow* window = new CrashWindow;
-    return window;
-}
-
 bool StartupDebug::CheckForCrashes() {
     QFileInfo lastlogfile = GetLastLogFile(m_LogDir.entryInfoList());
 
@@ -84,7 +79,8 @@ void StartupDebug::Run() {
         return;
     }
 
-    CrashWindow* window = CreateDebugWindow();
+    CrashWindow* window = new CrashWindow(m_logger_ptr, m_lastlogfile);
+
     if (window != nullptr) {
         m_logger_ptr->WriteToLog(Logger::LogFlag::Info, "Created Crash Handler Window Sucessfully");
         window->exec();

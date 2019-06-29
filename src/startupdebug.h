@@ -21,7 +21,6 @@ public:
     void Run();
     bool CheckForCrashes();
     bool CheckForLogsDir();
-    CrashWindow* CreateDebugWindow();
     //returns null if no file is found
     QFileInfo GetOldestLogFile(QFileInfoList list);
     //returns null if no file is found

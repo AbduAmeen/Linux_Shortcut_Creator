@@ -22,19 +22,14 @@ bool StartupDebug::CheckForCrashes() {
                 if (tempstr.contains("[Error]")) {
                     m_logger_ptr->WriteToLog(Logger::Info, "Found log with crash");
                     m_lastlogfile = lastlogfile;
+                    file.close();
                     return true;
                 }
             }
+            file.close();
         }
     }
     return false;
-}
-
-bool StartupDebug::CheckForLogsDir() {
-    if (!m_LogDir.exists()){
-        return false;
-    }
-    return true;
 }
 
 void StartupDebug::CleanLogFiles(){
@@ -65,29 +60,27 @@ void StartupDebug::CleanLogFiles(){
     }
 }
 
-void StartupDebug::Run() {
-    //test
-    Crash();
-
-    if (!CheckForLogsDir()) {
-        m_logger_ptr->WriteToLog(Logger::LogFlag::Warning,"Problem with logs directory. See StartupDebug::Run()");
-        return;
-    }
+int StartupDebug::Run() {
     CleanLogFiles();
 
     if (!CheckForCrashes()) {
-        return;
+        return 0;
     }
 
     CrashWindow* window = new CrashWindow(m_logger_ptr, m_lastlogfile);
+    int exitcode = 0;
 
     if (window != nullptr) {
         m_logger_ptr->WriteToLog(Logger::LogFlag::Info, "Created Crash Handler Window Sucessfully");
-        window->exec();
+        exitcode = window->exec();
     }
     else {
         m_logger_ptr->WriteToLog(Logger::LogFlag::Error, "Crash Handler Window Creation Failed");
+        return 2;
     }
+
+    delete window;
+    return exitcode;
 }
 
 void StartupDebug::Crash(){
@@ -147,7 +140,8 @@ QFileInfo StartupDebug::GetLastLogFile(QFileInfoList list) {
 
     if (size == 0) {
         auto tmp = ParseLogName(list.first().fileName());
-        if (tmp.date().isNull() || tmp.time().isNull()) {
+
+        if (tmp.isNull()) {
             m_logger_ptr->WriteToLog(Logger::LogFlag::Warning, QString("This (%1.txt) file was renamed. Please don't rename the log files").arg(list.first().fileName()));
         }
         return list.first();
@@ -204,8 +198,13 @@ QFileInfo StartupDebug::GetLastLogFile(QFileInfoList list) {
                                     list.removeOne(list.last());
                                 }
                                 else {
-                                    m_logger_ptr->WriteToLog(Logger::LogFlag::Warning, "Exception: FindMostRecentCreatedFile()");
-                                    break;
+                                    if (list.size() == 1) {
+                                        return list.first();
+                                    }
+                                    else {
+                                        m_logger_ptr->WriteToLog(Logger::LogFlag::Warning, "Exception: GetLastLogFile()");
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -223,10 +222,6 @@ QFileInfo StartupDebug::GetLastLogFile(QFileInfoList list) {
                 list.removeOne(list.last());
             }
         }
-    }
-
-    if (list.size() == 1) {
-        return list.first();
     }
 
     m_logger_ptr->WriteToLog(Logger::Warning, "list.size() was larger than one after parsing: See StartupDebug::FindMostRecentCreatedFile()");

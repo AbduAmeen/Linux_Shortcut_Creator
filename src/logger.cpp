@@ -11,20 +11,20 @@ Logger::Logger() : m_File(new QFile()), m_StartTime(QDateTime::currentDateTime()
     WriteToLog(LogFlag::None, "Started Logging");
 }
 
-void Logger::WriteToLog(LogFlag flag,QString message) {
+void Logger::WriteToLog(LogFlag flag, QString message) {
     QTextStream TextStream(m_File);
     switch (flag) {
     case LogFlag::None:
         TextStream << CurrentTimeString().toUtf8() << " " << message.toUtf8() << "\n";
         break;
     case LogFlag::Info:
-        TextStream << CurrentTimeString().toUtf8() << "[Info]" << " " << message.toUtf8() << "\n";
+        TextStream << CurrentTimeString().toUtf8() << "[Info] " <<  message.toUtf8() << "\n";
         break;
     case LogFlag::Warning:
-        TextStream << CurrentTimeString().toUtf8() << "[Warning]" << " " << message.toUtf8() << "\n";
+        TextStream << CurrentTimeString().toUtf8() << "[Warning] " << message.toUtf8() << "\n";
         break;
     case LogFlag::Error:
-        TextStream << CurrentTimeString().toUtf8() << "[Error]" << " " << message.toUtf8() << "\n";
+        TextStream << CurrentTimeString().toUtf8() << "[Error] " << message.toUtf8() << "\n";
         break;
     }
     TextStream.flush();

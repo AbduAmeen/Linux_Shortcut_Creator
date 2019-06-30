@@ -18,9 +18,8 @@ namespace StartupDebug {
 class StartupDebug {
 public:
     StartupDebug(std::shared_ptr<Logger::Logger> ptr);
-    void Run();
+    int Run();
     bool CheckForCrashes();
-    bool CheckForLogsDir();
     //returns null if no file is found
     QFileInfo GetOldestLogFile(QFileInfoList list);
     //returns null if no file is found

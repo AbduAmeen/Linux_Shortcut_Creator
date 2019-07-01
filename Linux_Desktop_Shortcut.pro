@@ -29,6 +29,7 @@ CONFIG += c++11
 @FORMS = $$files(src/forms/*.ui)@
 
 SOURCES += src/crashwindow.cpp \
+    src/config.cpp \
     src/mainwindow.cpp \
     src/startupdebug.cpp \
     src/main.cpp\
@@ -36,6 +37,7 @@ SOURCES += src/crashwindow.cpp \
     src/theapp.cpp
 
 HEADERS += src/crashwindow.h \
+    src/config.h \
     src/mainwindow.h \
     src/startupdebug.h \
     src/logger.h \

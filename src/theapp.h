@@ -11,7 +11,7 @@ class TheApp : public QApplication {
     Q_OBJECT
 public:
     TheApp(int &argc, char **argv, std::shared_ptr<Logger::Logger> ptr);
-    void Setlogger(std::shared_ptr<Logger::Logger> ptr);
+    int exec();
 private:
     std::shared_ptr<Logger::Logger> m_logger_ptr;
 };

@@ -3,3 +3,7 @@
 TheApp::TheApp(int &argc, char **argv, std::shared_ptr<Logger::Logger> ptr) : QApplication(argc,argv), m_logger_ptr(ptr){
 
 }
+
+int TheApp::exec() {
+    m_logger_ptr->WriteToLog(Logger::Info, "Starting Event Loop");
+}

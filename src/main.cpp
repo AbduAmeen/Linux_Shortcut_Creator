@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include "startupdebug.h"
 #include "logger.h"
+#include "config.h"
 
 int main(int argc, char *argv[])
 {
@@ -25,9 +26,9 @@ int main(int argc, char *argv[])
         a.quit();
         return 0;
     }
+    Config cfg(logger);
     MainWindow w;
     w.show();
-
 
     return a.exec();
 }

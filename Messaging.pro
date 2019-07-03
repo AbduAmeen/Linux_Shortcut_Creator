@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,28 +24,48 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 CONFIG += c++11
+CONFIG += link_pkgconfig
+
+packagesExist(glib-2.0) {
+    DEFINES += HAS_GLIB
+    PKGCONFIG += glib-2.0
+}
 
 @SOURCES = $$files(src/*.cpp)@
 @HEADERS = $$files(src/*.h)@
 @FORMS = $$files(src/forms/*.ui)@
 
 SOURCES += src/crashwindow.cpp \
+    src/client.cpp \
     src/config.cpp \
+    src/connection.cpp \
+    src/chatdialog.cpp \
+    src/messagenode.cpp \
     src/mainwindow.cpp \
+    src/peermanager.cpp \
+    src/server.cpp \
     src/startupdebug.cpp \
     src/main.cpp\
     src/logger.cpp \
     src/theapp.cpp
 
 HEADERS += src/crashwindow.h \
+    src/client.h \
     src/config.h \
+    src/connection.h \
+    src/chatdialog.h \
+    src/messagenode.h \
     src/mainwindow.h \
+    src/peermanager.h \
+    src/server.h \
     src/startupdebug.h \
     src/logger.h \
     src/theapp.h
 
 FORMS += src/forms/crashwindow.ui \
-    src/forms/mainwindow.ui
+    src/forms/chatdialog.ui \
+    src/forms/mainwindow.ui \
+    src/forms/messagenode.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

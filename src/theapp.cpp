@@ -4,6 +4,6 @@ TheApp::TheApp(int &argc, char **argv, std::shared_ptr<Logger::Logger> ptr) : QA
 
 }
 
-int TheApp::exec() {
-    m_logger_ptr->WriteToLog(Logger::Info, "Starting Event Loop");
+bool TheApp::IsMinimized() {
+    return m_minimized;
 }

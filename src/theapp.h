@@ -11,8 +11,9 @@ class TheApp : public QApplication {
     Q_OBJECT
 public:
     TheApp(int &argc, char **argv, std::shared_ptr<Logger::Logger> ptr);
-    int exec();
+    bool IsMinimized();
 private:
+    bool m_minimized;
     std::shared_ptr<Logger::Logger> m_logger_ptr;
 };
 

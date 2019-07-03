@@ -1,9 +1,9 @@
 #Ignore
 
-Linux_Desktop_Shortcut.pro.user
-Linux_Desktop_Shortcut.pro.user.b8ecd0a.21
-Linux_Desktop_Shortcut.pro.user.4.8-pre1
+*.pro.user
+*.user.b8ecd0a.21
+*.pro.user.4.8-pre1
 
 #Allow
 
-!Linux_Desktop_Shortcut.pro
+!Messaging.pro

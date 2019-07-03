@@ -1,5 +1,5 @@
-# Linux Shortcut Creator
-Creates shortcuts for the desktop on linux
+# Messaging
+Messaging app that works with Qt and WinRT
 
 Prerequisites: Qt 5.13
 

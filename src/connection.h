@@ -29,9 +29,9 @@ public:
         Undefined
     };
 
-    Connection(QObject *parent = 0);
-    Connection(qintptr socketDescriptor, QObject *parent = 0);
-    ~Connection();
+    Connection(QObject *parent = nullptr);
+    Connection(qintptr socketDescriptor, QObject *parent = nullptr);
+    ~Connection() override;
 
     QString name() const;
     void setGreetingMessage(const QString &message);

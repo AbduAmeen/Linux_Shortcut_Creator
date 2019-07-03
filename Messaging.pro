@@ -42,6 +42,7 @@ SOURCES += src/crashwindow.cpp \
     src/chatdialog.cpp \
     src/messagenode.cpp \
     src/mainwindow.cpp \
+    src/network.cpp \
     src/peermanager.cpp \
     src/server.cpp \
     src/startupdebug.cpp \
@@ -56,6 +57,7 @@ HEADERS += src/crashwindow.h \
     src/chatdialog.h \
     src/messagenode.h \
     src/mainwindow.h \
+    src/network.h \
     src/peermanager.h \
     src/server.h \
     src/startupdebug.h \

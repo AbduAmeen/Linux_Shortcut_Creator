@@ -14,6 +14,12 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+signals:
+    void NewMessage(QString message);
+private slots:
+    void on_SubmitButton_clicked();
+    void CreateMessageNode(QString message);
+    void on_UserLineEdit_returnPressed();
 
 private:
     Ui::MainWindow *ui;

@@ -37,26 +37,28 @@ void StartupDebug::CleanLogFiles(){
     list.removeAt(0);
     list.removeAt(0);
 
-    while (list.count() > 20) {
-        QString str;
-        for (int p = 0; p < list.count(); p++) {
-            str.clear();
-            QDateTime temptime = ParseLogName(list.at(p));
-            if (temptime.isNull()) {
-                str = list.at(p);
-                list.removeAt(p);
-                break;
-            }
-        }
 
-        if (!str.isEmpty()){
-            m_LogDir.remove(str);
+    while (list.count() > 20) {
+        static int itr = 0;
+        static QString str;
+
+        if (itr == list.count() - 1) {break;}
+
+        str.clear();
+        QDateTime temptime = ParseLogName(list.at(itr));
+
+        if (temptime.isNull()) {
+            str = list.at(itr);
+            list.removeAt(itr);
         }
-        else {
-            auto temp = GetOldestLogFile(m_LogDir.entryInfoList());
-            m_LogDir.remove(temp.fileName());
-            list.removeOne(temp.fileName());
-        }
+        itr++;
+    }
+
+    while (list.count() > 20) {
+        auto temp = GetOldestLogFile(m_LogDir.entryInfoList());
+        m_LogDir.remove(temp.fileName());
+        list.removeOne(temp.fileName());
+        m_LogDir.refresh();
     }
 }
 
@@ -116,7 +118,7 @@ QDateTime StartupDebug::ParseLogName(QString name) {
     int month = name.left(firsthyphen).toInt(&flag2);
 
     if (flag2) {
-        int day = name.mid(firsthyphen + 1, 2).toInt(&flag2);
+        int day = name.mid(firsthyphen + 1, secondhyphen - firsthyphen - 1).toInt(&flag2);
         if (flag2) {
             int year = name.mid(secondhyphen + 1, 4).toInt(&flag2);
             if (flag2) {
@@ -224,7 +226,7 @@ QFileInfo StartupDebug::GetLastLogFile(QFileInfoList list) {
         }
     }
 
-    m_logger_ptr->WriteToLog(Logger::Warning, "list.size() was larger than one after parsing: See StartupDebug::FindMostRecentCreatedFile()");
+    m_logger_ptr->WriteToLog(Logger::Warning, "list.size() was larger than one after parsing: See StartupDebug::GetLastLogFile()");
     return QFileInfo();
 }
 
@@ -235,18 +237,20 @@ QFileInfo StartupDebug::GetOldestLogFile(QFileInfoList list) {
     list.removeAt(0);
     list.removeOne(m_logger_ptr->GetLogFilePath().path());
 
-    if (size == 0) {
+    if (list.size() - 1 == 0) {
         auto tmp = ParseLogName(list.first().fileName());
         if (tmp.date().isNull() || tmp.time().isNull()) {
             m_logger_ptr->WriteToLog(Logger::LogFlag::Warning, QString("This (%1.txt) file was renamed. Please don't rename the log files").arg(list.first().fileName()));
         }
         return list.first();
     }
-    else if (size == -1 ) {
+    else if (list.size() - 1 == -1 ) {
         return QFileInfo();
     }
 
     for (int i = 0; i < size; i++) {
+        if (list.size() == 1) {break;}
+
         auto first = ParseLogName(list.first().fileName());
         auto last = ParseLogName(list.last().fileName());
 

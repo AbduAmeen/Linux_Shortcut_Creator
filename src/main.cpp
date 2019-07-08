@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
         a.quit();
         return 0;
     case QDialog::Rejected:
-        logger->WriteToLog(Logger::Info, "User chose to start application");
+        logger->WriteToLog(Logger::Info, "Starting main application");
         break;
     case 2:
         a.quit();

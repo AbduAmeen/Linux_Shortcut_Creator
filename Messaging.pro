@@ -9,7 +9,7 @@ QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Linux_Desktop_Shortcut
+TARGET = Messaging
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -40,8 +40,8 @@ SOURCES += src/crashwindow.cpp \
     src/config.cpp \
     src/connection.cpp \
     src/chatdialog.cpp \
-    src/messagenode.cpp \
     src/mainwindow.cpp \
+    src/messagenode.cpp \
     src/network.cpp \
     src/peermanager.cpp \
     src/server.cpp \
@@ -55,8 +55,8 @@ HEADERS += src/crashwindow.h \
     src/config.h \
     src/connection.h \
     src/chatdialog.h \
-    src/messagenode.h \
     src/mainwindow.h \
+    src/messagenode.h \
     src/network.h \
     src/peermanager.h \
     src/server.h \

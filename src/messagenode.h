@@ -1,33 +1,25 @@
 #ifndef MESSAGENODE_H
 #define MESSAGENODE_H
 
-#include <QWidget>
-#include <QLabel>
-#include <QTextEdit>
-#include <QDateTime>
+#include <QString>
+#include <QPainter>
+#include <QObject>
+#include <QListView>
+#include <QStyledItemDelegate>
+#include <QGridLayout>
 
 namespace Ui {
-class MessageNode;
+    class MessageNode;
 }
 
-class MessageNode : public QWidget
-{
+class MessageNode : public QStyledItemDelegate {
     Q_OBJECT
-
 public:
-    explicit MessageNode(QWidget *parent = nullptr);
-    ~MessageNode();
-    QImage GetProfileImage();
-    QString GetMessage();
-    QDateTime GetDateTime();
+    MessageNode(QObject* parent = nullptr);
+    void paint(QPainter* painter, const QStyleOptionViewItem & option, const QModelIndex & index) const;
+    QSize sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const;
 private:
-    Ui::MessageNode *ui;
-    QImage m_profileimage;
-    QLabel* m_imagebox;
-    QLabel* m_datetimelabel;
     QString m_message;
-    QDateTime m_datetime;
-    QTextEdit* m_textedit;
 };
 
 #endif // MESSAGENODE_H

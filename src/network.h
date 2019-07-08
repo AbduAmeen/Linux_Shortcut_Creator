@@ -1,5 +1,7 @@
 #ifndef NETWORK_H
 #define NETWORK_H
+
+#include <QDateTime>
 #include <QObject>
 #include <QTcpServer>
 #include <QByteArrayList>
@@ -17,6 +19,7 @@ class Server;
 
 struct MessageContainer {
     std::vector<QImage> image;
+    QDateTime datetimesent;
     QString text;
 };
 
@@ -37,6 +40,7 @@ public:
     Client();
     inline QString GetNickname() {return m_nickname;}
     inline QString GetEmail() {return m_email;}
+    bool IsConnected(const QHostAddress &senderIp, int senderPort = -1);
 signals:
     //TODO: Set all of the user handles to be by email
     void NewMessage(const QString &from ,const QString &message);

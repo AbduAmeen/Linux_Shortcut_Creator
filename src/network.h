@@ -17,12 +17,6 @@ class Connection;
 class Client;
 class Server;
 
-struct MessageContainer {
-    std::vector<QImage> image;
-    QDateTime datetimesent;
-    QString text;
-};
-
 class Server : public QTcpServer {
     Q_OBJECT
 public:
@@ -43,7 +37,7 @@ public:
     bool IsConnected(const QHostAddress &senderIp, int senderPort = -1);
 signals:
     //TODO: Set all of the user handles to be by email
-    void NewMessage(const QString &from ,const QString &message);
+    void IncomingMessage(const QString &from ,const QString &message);
     void NewParticipant(const QString &nick);
     void ParticipantDisconnected(const QString &nick);
 public slots:
@@ -72,20 +66,15 @@ public:
     ~Connection();
     inline QString GetName() {return m_username;}
     inline State GetState() {return m_state;}
-    bool SendMessage(const MessageContainer &message);
+    bool SendMessage(const QString &message);
 
 signals:
     void ReadyForUse();
-    void NewMessage(const QString& from, const MessageContainer& message);
+    void NewMessage(const QString& from, const QString& message);
 
 private:
-    QCborStreamReader m_cborreader;
-    QCborStreamWriter m_cborwriter;
     State m_state;
     QString m_username;
-
-private slots:
-
 };
 } //namespace Network
 #endif // NETWORK_H

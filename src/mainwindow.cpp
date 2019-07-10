@@ -9,9 +9,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    connect(this,SIGNAL(NewMessage(QString)), this, SLOT(CreateMessageNode(QString)));
+    connect(this, SIGNAL(NewMessage(QString)), this, SLOT(CreateMessageNode(QString)));
+    connect(this, SIGNAL(NewMessage(QString)), &m_client, SLOT(SendMessage(QString)));
     ui->MessagesListWidget->setItemDelegate(new MessageNode(ui->MessagesListWidget));
-    ui->MessagesListWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
 }
 
 MainWindow::~MainWindow()
@@ -22,6 +22,7 @@ MainWindow::~MainWindow()
 void MainWindow::CreateMessageNode(QString message) {
 
     ui->MessagesListWidget->addItem(new QListWidgetItem(message));
+
 }
 void MainWindow::on_SubmitButton_clicked()
 {
@@ -35,4 +36,3 @@ void MainWindow::on_UserLineEdit_returnPressed()
 {
     on_SubmitButton_clicked();
 }
-

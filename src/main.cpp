@@ -2,6 +2,7 @@
 #include <QtNetwork/QNetworkSession>
 #include <QtCore/QSettings>
 
+#include "network.h"
 #include "chatdialog.h"
 #include "theapp.h"
 #include "mainwindow.h"
@@ -31,20 +32,19 @@ int main(int argc, char *argv[])
         a.quit();
         return 0;
     }
-
+    Config cfg("config",QSettings::Format::IniFormat,logger);
+    cfg.CheckAndLogStatus();
     QNetworkConfigurationManager manager;
 
    if (manager.capabilities() & QNetworkConfigurationManager::NetworkSessionRequired) {
        // Get saved network configuration
-       QSettings settings(QSettings::UserScope, QLatin1String("QtProject"));
-       settings.beginGroup(QLatin1String("QtNetwork"));
-       const QString id = settings.value(QLatin1String("DefaultNetworkConfiguration")).toString();
-       settings.endGroup();
+       cfg.beginGroup(QLatin1String("Network"));
+       const QString id = cfg.value(QLatin1String("DefaultNetworkConfiguration")).toString();
+       cfg.endGroup();
 
        // If the saved network configuration is not currently discovered use the system default
        QNetworkConfiguration config = manager.configurationFromIdentifier(id);
-       if ((config.state() & QNetworkConfiguration::Discovered) !=
-           QNetworkConfiguration::Discovered) {
+       if ((config.state() & QNetworkConfiguration::Discovered) != QNetworkConfiguration::Discovered) {
            config = manager.defaultConfiguration();
        }
 
@@ -63,14 +63,13 @@ int main(int argc, char *argv[])
                id = config.identifier();
            }
 
-           QSettings settings(QSettings::UserScope, QLatin1String("QtProject"));
-           settings.beginGroup(QLatin1String("QtNetwork"));
-           settings.setValue(QLatin1String("DefaultNetworkConfiguration"), id);
-           settings.endGroup();
+           cfg.beginGroup(QLatin1String("Network"));
+           cfg.setValue(QLatin1String("DefaultNetworkConfiguration"), id);
+           cfg.endGroup();
        }
    }
 
-   Config cfg(logger);
+
    MainWindow window;
    window.show();
    ChatDialog dialog;

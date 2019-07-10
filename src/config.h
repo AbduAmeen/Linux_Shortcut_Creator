@@ -10,7 +10,8 @@ class Config : public QSettings
 {
     Q_OBJECT
 public:
-    Config(std::shared_ptr<Logger::Logger> ptr);
+    Config(QString configname,QSettings::Format scope, std::shared_ptr<Logger::Logger> ptr, QObject* parent = nullptr);
+    void CheckAndLogStatus();
 private:
     std::shared_ptr<Logger::Logger> m_logger_ptr;
 };

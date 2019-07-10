@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "network.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -10,7 +12,6 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
@@ -22,6 +23,7 @@ private slots:
     void on_UserLineEdit_returnPressed();
 private:
     Ui::MainWindow *ui;
+    Network::Client m_client;
 };
 
 #endif // MAINWINDOW_H

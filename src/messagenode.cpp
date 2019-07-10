@@ -6,6 +6,7 @@ MessageNode::MessageNode(QObject* parent) : QStyledItemDelegate(parent) {
 
 MessageNode::MessageNode(QString message, QObject* parent) : QStyledItemDelegate(parent), m_message(message) {
 }
+
 void MessageNode::paint(QPainter* painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     QRect r = option.rect;
 
@@ -52,18 +53,13 @@ void MessageNode::paint(QPainter* painter, const QStyleOptionViewItem &option, c
 //        painter->drawLine(r.bottomLeft(),r.bottomRight());
     }
 
-    //GET TITLE
+    //GET messaqge
     QString message = index.data(Qt::DisplayRole).toString();
-    //TITLE
 
-    painter->drawRect(r.adjusted(0, 0, -painter->pen().width(), -painter->pen().width()));
     QRect boundedrect;
-    QPen pen(Qt::black,Qt::DashLine);
-    painter->setPen(pen);
-    r .adjust(5, -5, -5, 0);
+    r.adjust(5, 0, -5, 0);
     painter->setPen(fontPen);
     painter->setFont(QFont("AnjaliOldLipi", 14, QFont::Normal));
-
     painter->drawText(r, Qt::AlignBottom|Qt::AlignRight|Qt::TextWrapAnywhere, message, &boundedrect);
 
     //Draws a rectangle over the text. Good for debugging the bounding rectangle around the text. Covers the text
@@ -73,10 +69,6 @@ void MessageNode::paint(QPainter* painter, const QStyleOptionViewItem &option, c
 }
 
 QSize MessageNode::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    QFont font("AnjaliOldLipi",14);
-    QFontMetrics metric(font);
-    QRect bounding(0,0,option.rect.width(),metric.size(Qt::AlignBottom|Qt::AlignRight|Qt::TextWrapAnywhere,index.data(Qt::DisplayRole).toString()).height());
-    bounding = metric.boundingRect(bounding,Qt::AlignBottom|Qt::AlignRight|Qt::TextWrapAnywhere,index.data(Qt::DisplayRole).toString());
-    bounding.adjust(0,0,0,10);
-    return bounding.size();
+    QFontMetrics metrics(QFont("AnjaliOldLipi",14, QFont::Normal));
+    return metrics.boundingRect(option.rect, Qt::AlignBottom|Qt::AlignRight|Qt::TextWrapAnywhere, index.data(Qt::DisplayRole).toString()).size();
 }

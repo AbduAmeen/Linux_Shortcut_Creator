@@ -14,12 +14,9 @@ ChatDialog::ChatDialog(QWidget *parent)
 
     connect(lineEdit, SIGNAL(returnPressed()), this, SLOT(returnPressed()));
     connect(lineEdit, SIGNAL(returnPressed()), this, SLOT(returnPressed()));
-    connect(&client, SIGNAL(newMessage(QString,QString)),
-            this, SLOT(appendMessage(QString,QString)));
-    connect(&client, SIGNAL(newParticipant(QString)),
-            this, SLOT(newParticipant(QString)));
-    connect(&client, SIGNAL(participantLeft(QString)),
-            this, SLOT(participantLeft(QString)));
+    connect(&client, SIGNAL(newMessage(QString,QString)), this, SLOT(appendMessage(QString,QString)));
+    connect(&client, SIGNAL(newParticipant(QString)), this, SLOT(newParticipant(QString)));
+    connect(&client, SIGNAL(participantLeft(QString)), this, SLOT(participantLeft(QString)));
 
     myNickName = client.nickName();
     newParticipant(myNickName);

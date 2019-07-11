@@ -10,10 +10,8 @@ Client::Client()
     peerManager->setServerPort(server.serverPort());
     peerManager->startBroadcasting();
 
-    QObject::connect(peerManager, SIGNAL(newConnection(Connection*)),
-                     this, SLOT(newConnection(Connection*)));
-    QObject::connect(&server, SIGNAL(newConnection(Connection*)),
-                     this, SLOT(newConnection(Connection*)));
+    QObject::connect(peerManager, SIGNAL(newConnection(Connection*)), this, SLOT(newConnection(Connection*)));
+    QObject::connect(&server, SIGNAL(newConnection(Connection*)),this, SLOT(newConnection(Connection*)));
 }
 
 void Client::sendMessage(const QString &message)
@@ -52,8 +50,7 @@ void Client::newConnection(Connection *connection)
 {
     connection->setGreetingMessage(peerManager->userName());
 
-    connect(connection, SIGNAL(error(QAbstractSocket::SocketError)),
-            this, SLOT(connectionError(QAbstractSocket::SocketError)));
+    connect(connection, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(connectionError(QAbstractSocket::SocketError)));
     connect(connection, SIGNAL(disconnected()), this, SLOT(disconnected()));
     connect(connection, SIGNAL(readyForUse()), this, SLOT(readyForUse()));
 }

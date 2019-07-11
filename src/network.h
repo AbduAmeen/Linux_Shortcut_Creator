@@ -6,10 +6,12 @@
 #include <QTcpServer>
 #include <QByteArrayList>
 #include <QTcpSocket>
-#include <QCborStreamReader>
+#include <QHostAddress>
+#include <QTimer>
+#include <QElapsedTimer>
+#include <QCborStreamWriter>
 #include <QCborStreamReader>
 #include <QImage>
-#include <QThread>
 #include <QBuffer>
 
 namespace Network {
@@ -33,22 +35,20 @@ class Client : public QObject {
 public:
     Client();
     inline QString GetNickname() {return m_nickname;}
-    inline QString GetEmail() {return m_email;}
     bool IsConnected(const QHostAddress &senderIp, int senderPort = -1);
 signals:
     //TODO: Set all of the user handles to be by email
     void IncomingMessage(const QString &from ,const QString &message);
-    void NewParticipant(const QString &nick);
-    void ParticipantDisconnected(const QString &nick);
+    void NewFriend(const QString &nick);
+    void FriendDisconnected(const QString &nick);
 public slots:
     void SendMessage(const QString& message);
 private:
-    //TODO: make server a seperate thread
-    Server server;
+    void RemoveConnection(Connection* connection);
+    //TODO: make server a seperate Application
+    Server m_server;
     QString m_nickname;
-    QString m_email;
-    QString m_password;
-
+    QMultiHash<QHostAddress, Connection* > m_friendmap;
 private slots:
     void NewConnection(Connection* connection);
     void ConnectionError(QAbstractSocket::SocketError error);
@@ -64,15 +64,22 @@ public:
     Connection(QObject *parent = nullptr);
     Connection(qintptr socketdesc, QObject* parent = nullptr);
     ~Connection();
-    inline QString GetName() {return m_username;}
+    inline QString GetNickname() {return m_username;}
     inline State GetState() {return m_state;}
     bool SendMessage(const QString &message);
 
 signals:
     void ReadyForUse();
     void NewMessage(const QString& from, const QString& message);
-
+private slots:
+    void ProcessReadyRead();
+    void SendPing();
 private:
+    void HasEnoughData();
+    void ProcessData();
+    QCborStreamReader m_reader;
+    QCborStreamWriter m_writer;
+    QString m_buffer;
     State m_state;
     QString m_username;
 };

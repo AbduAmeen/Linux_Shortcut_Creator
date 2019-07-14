@@ -27,11 +27,13 @@ public:
 private:
     void Crash();
     void CleanLogFiles();
-    std::shared_ptr<Logger::Logger> m_logger_ptr;
-    QFileInfo m_lastlogfile;
     QDateTime ParseLogName(QString name);
+
+    QFileInfo m_lastlogfile;
     QDir m_AppPath;
     QDir m_LogDir;
+    std::shared_ptr<Logger::Logger> m_logger_ptr;
+
 };
 }
 #endif // STARTUPDEBUG_H

@@ -3,7 +3,6 @@
 #include <QtCore/QSettings>
 
 #include "network.h"
-#include "chatdialog.h"
 #include "theapp.h"
 #include "mainwindow.h"
 #include "startupdebug.h"
@@ -70,10 +69,8 @@ int main(int argc, char *argv[])
    }
 
 
-   MainWindow window;
+   MainWindow window(logger);
    window.show();
-   ChatDialog dialog;
-   dialog.show();
 
    return a.exec();
 }

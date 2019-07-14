@@ -32,6 +32,7 @@ private:
     //sets m_logfilepath
     QString CreateLogFileName();
     QString CurrentTimeString();
+
     QDir m_LogFolderPath;
     QDir m_LogFilePath;
     QFile* m_File;

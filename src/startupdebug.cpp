@@ -135,10 +135,10 @@ QDateTime StartupDebug::ParseLogName(QString name) {
 }
 
 QFileInfo StartupDebug::GetLastLogFile(QFileInfoList list) {
-    int size = static_cast<int>(list.size()) - 1;
     list.removeAt(0);
     list.removeAt(0);
     list.removeOne(m_logger_ptr->GetLogFilePath().path());
+    int size = static_cast<int>(list.size()) - 1;
 
     if (size == 0) {
         auto tmp = ParseLogName(list.first().fileName());

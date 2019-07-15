@@ -15,8 +15,8 @@ MainWindow::MainWindow(std::shared_ptr<Logger::Logger> logger,QWidget *parent) :
     ui->MessagesListWidget->setResizeMode(QListView::Adjust);
     m_nickname = "abdu" + QString(": %1").arg(m_client->GetServerPort());
 
-    connect(this, SIGNAL(NewMessage(QString)), this, SLOT(NewMessageNode(QString)));
-    connect(m_client.get(), SIGNAL(IncomingMessage(QString)), this, SLOT(NewMessageNode(QString)));
+    connect(this, SIGNAL(NewMessage(QString)), this, SLOT(CreateMessageNode(QString)));
+    connect(m_client.get(), SIGNAL(IncomingMessage(QString, QString)), this, SLOT(NewMessageNode(QString, QString)));
     connect(m_client.get(), SIGNAL(UserJoined(QString)), this, SLOT(CreateFriendNode(QString)));
     connect(m_client.get(), SIGNAL(UserLeft(QString)), this, SLOT(RemoveFriendNode(QString)));
     CreateFriendNode(m_nickname);
@@ -27,11 +27,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::NewMessageNode(QString message) {
+void MainWindow::NewMessageNode(QString nickname, QString message) {
     ui->MessagesListWidget->addItem(new QListWidgetItem(message));
 }
 
-void MainWindow::CreateMessageNode(QString nickname, QString message) {
+void MainWindow::CreateMessageNode(QString message) {
     ui->MessagesListWidget->addItem(new QListWidgetItem(message));
 }
 
@@ -46,6 +46,7 @@ void MainWindow::RemoveFriendNode(QString nickname) {
             delete ui->FriendsListWidget->item(var);
         }
     }
+    CreateMessageNode(nickname + QString(" has left"));
 }
 void MainWindow::on_SubmitButton_clicked()
 {

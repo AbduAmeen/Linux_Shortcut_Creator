@@ -16,12 +16,6 @@
 
 #include "logger.h"
 
-namespace  {
-    QList<QHostAddress> GetBroadcastAddresses();
-    QList<QHostAddress> GetIpAddresses();
-    void UpdateAddresses();
-}
-
 namespace Network {
 class Connection;
 class Client;
@@ -50,17 +44,18 @@ public slots:
 signals:
     void UserLeft(QString nickname);
     void UserJoined(QString nickname);
-    void IncomingMessage(QString string);
+    void IncomingMessage(QString nickname, QString message);
 private slots:
     void Broadcast();
     void ReadBroadcast();
     void Disconnected();
-    void ReadMessage();
+    void ReadMessage(QString nickname, QString message);
     bool HasConnection(QHostAddress address, int port = -1);
     void ProcessConnection(Connection* socket);
     void Error(QAbstractSocket::SocketError error);
     void Ready();
 private:
+    void RemoveConnection(Connection* connection);
     QUdpSocket m_broadcastsocket;
     QTimer m_broadcasttimer;
     QMultiHash<QHostAddress, Connection*> m_usersconnected;
@@ -71,20 +66,36 @@ private:
 
 class Connection : public QTcpSocket {
     Q_OBJECT
-    enum DataType {Text, Ping, Pong };
 public:
+    enum State{Unconnected, ReadyToRead};
+    enum DataType {Text, Ping, Pong, Undefined};
     Connection(QObject* parent = nullptr);
-    Connection(qintptr pointer, QObject* parent = nullptr);
+    Connection(qintptr descriptor, QObject* parent = nullptr);
+    ~Connection();
+    void WriteMessage(QString string);
+    inline void SetNickname(QString nickname) {m_nickname = nickname;}
+    inline QString GetNickname() {return m_nickname;}
 signals:
     void Ready();
+    void IncomingMessage(QString nickname, QString message);
 private slots:
     void ReadyForUse();
-    //WriteMessage(QString string);
+    void ReadMessage();
+    void ProcessMessage();
+    void SendPing();
+    void SendPong();
 private:
-    QCborStreamReader m_reader;
+    void ProcessGreeting();
+    State m_state;
+    DataType m_type;
+    bool m_greetingsent;
+    QString m_nickname;
+    QTimer m_pingtimer;
+    int m_transfertimerid;
+    QElapsedTimer m_pongtimer;
     QCborStreamWriter m_writer;
+    QCborStreamReader m_reader;
     QString m_buffer;
-
 };
 
 } //namespace Network

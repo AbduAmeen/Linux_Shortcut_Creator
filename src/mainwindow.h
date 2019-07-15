@@ -20,9 +20,9 @@ signals:
 private slots:
     void RemoveFriendNode(QString nickname);
     void CreateFriendNode(QString nickname);
-    void NewMessageNode(QString message);
+    void NewMessageNode(QString nickname, QString message);
     void on_SubmitButton_clicked();
-    void CreateMessageNode(QString nickname, QString message);
+    void CreateMessageNode(QString message);
     void on_UserLineEdit_returnPressed();
 private:
     Ui::MainWindow *ui;

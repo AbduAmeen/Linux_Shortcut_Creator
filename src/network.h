@@ -56,6 +56,13 @@ private slots:
     void Ready();
 private:
     void RemoveConnection(Connection* connection);
+    void UpdateAddresses();
+    inline QList<QHostAddress> GetBroadcastAddresses() {return m_broadcastaddresses;}
+    inline QList<QHostAddress> GetIpAddresses() {return m_ipaddresses;}
+    bool IsLocalHostAddress(QHostAddress address);
+
+    QList<QHostAddress> m_ipaddresses;
+    QList<QHostAddress> m_broadcastaddresses;
     QUdpSocket m_broadcastsocket;
     QTimer m_broadcasttimer;
     QMultiHash<QHostAddress, Connection*> m_usersconnected;

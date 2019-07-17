@@ -13,12 +13,13 @@ MainWindow::MainWindow(std::shared_ptr<Logger::Logger> logger,QWidget *parent) :
     ui->setupUi(this);
     ui->MessagesListWidget->setItemDelegate(new MessageNode(ui->MessagesListWidget));
     ui->MessagesListWidget->setResizeMode(QListView::Adjust);
-    m_nickname = "abdu" + QString(": %1").arg(m_client->GetServerPort());
+    m_nickname = "abdu";
 
     connect(this, SIGNAL(NewMessage(QString)), this, SLOT(CreateMessageNode(QString)));
     connect(m_client.get(), SIGNAL(IncomingMessage(QString, QString)), this, SLOT(NewMessageNode(QString, QString)));
     connect(m_client.get(), SIGNAL(UserJoined(QString)), this, SLOT(CreateFriendNode(QString)));
     connect(m_client.get(), SIGNAL(UserLeft(QString)), this, SLOT(RemoveFriendNode(QString)));
+    ui->PortLabel->setText(QString("%1").arg(m_client->GetServerPort()));
     CreateFriendNode(m_nickname);
 }
 

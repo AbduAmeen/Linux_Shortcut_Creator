@@ -21,6 +21,29 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
+<<<<<<< Updated upstream
+=======
+    <item row="1" column="1" rowspan="2" colspan="2">
+     <widget class="QListWidget" name="MessagesListWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QLabel" name="MessagesLabel">
+      <property name="text">
+       <string>Messages</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+>>>>>>> Stashed changes
     <item row="6" column="2">
      <widget class="QPushButton" name="SubmitButton">
       <property name="sizePolicy">
@@ -44,6 +67,7 @@
       </property>
      </widget>
     </item>
+<<<<<<< Updated upstream
     <item row="6" column="1">
      <widget class="QLineEdit" name="UserLineEdit"/>
     </item>
@@ -51,6 +75,25 @@
      <widget class="QLabel" name="YourGroupsLabel">
       <property name="text">
        <string>Your Groups</string>
+=======
+    <item row="1" column="0">
+     <widget class="QListWidget" name="FriendsListWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QLineEdit" name="UserLineEdit"/>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="ServerLabel">
+      <property name="text">
+       <string>TextLabel</string>
+>>>>>>> Stashed changes
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

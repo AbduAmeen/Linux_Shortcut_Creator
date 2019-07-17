@@ -7,6 +7,35 @@
 
 namespace  {
 quint16 BroadcastPort = 2837;
+QList<QHostAddress> ipaddresses;
+QList<QHostAddress> broadcastaddresses;
+
+void UpdateAddresses() {
+    for (auto p : QNetworkInterface::allInterfaces()) {
+        for (auto q : p.addressEntries()) {
+            if (q.broadcast() != QHostAddress::Null && q.ip() != QHostAddress::LocalHost) {
+                broadcastaddresses.append(q.broadcast());
+                ipaddresses.append(q.ip());
+            }
+        }
+    }
+}
+
+QList<QHostAddress> GetBroadcastAddresses() {
+    return broadcastaddresses;
+}
+
+QList<QHostAddress> GetIpAddresses() {
+    return ipaddresses;
+}
+
+bool IsLocalHostAddress(QHostAddress address) {
+    for(auto p : GetIpAddresses()){
+        if (address.isEqual(p))
+            return true;
+    }
+    return false;
+}
 }
 
 //Server class
@@ -147,55 +176,11 @@ bool Client::HasConnection(QHostAddress address, int port) {
     return false;
 }
 
-<<<<<<< Updated upstream
-=======
-void Client::ConnectToServer(int port) {
-    auto connection = new Connection(this);
-    connection->connectToHost(QHostAddress::Any, port);
-    connection->waitForConnected(10000);
-
-    if (connection->state() == Connection::ConnectedState) {
-        connection->SetNickname("test");
-        emit UserJoined(connection->GetNickname());
-    }
-    else {
-        connection->deleteLater();
-    }
-}
-
->>>>>>> Stashed changes
 void Client::Ready() {
     auto socket = qobject_cast<Connection*>(sender());
     m_usersconnected.insert(socket->peerAddress(), socket);
     socket->SetNickname(QString("abdu: %1").arg(socket->peerPort()));
     emit UserJoined(socket->GetNickname());
-}
-
-void Client::UpdateAddresses() {
-    for (auto p : QNetworkInterface::allInterfaces()) {
-        for (auto q : p.addressEntries()) {
-            if (q.broadcast() != QHostAddress::Null && q.ip() != QHostAddress::LocalHost) {
-                m_broadcastaddresses.append(q.broadcast());
-                m_ipaddresses.append(q.ip());
-            }
-        }
-    }
-}
-
-QList<QHostAddress> Client::GetBroadcastAddresses() {
-    return m_broadcastaddresses;
-}
-
-QList<QHostAddress> Client::GetIpAddresses() {
-    return m_ipaddresses;
-}
-
-bool Client::IsLocalHostAddress(QHostAddress address) {
-    for(auto p : GetIpAddresses()){
-        if (address.isEqual(p))
-            return true;
-    }
-    return false;
 }
 
 Client::~Client() {

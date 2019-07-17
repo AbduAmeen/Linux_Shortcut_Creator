@@ -19,11 +19,6 @@ MainWindow::MainWindow(std::shared_ptr<Logger::Logger> logger,QWidget *parent) :
     connect(m_client.get(), SIGNAL(IncomingMessage(QString, QString)), this, SLOT(NewMessageNode(QString, QString)));
     connect(m_client.get(), SIGNAL(UserJoined(QString)), this, SLOT(CreateFriendNode(QString)));
     connect(m_client.get(), SIGNAL(UserLeft(QString)), this, SLOT(RemoveFriendNode(QString)));
-<<<<<<< Updated upstream
-=======
-    connect(this, SIGNAL(ConnectToUser(int)), m_client.get(), SLOT(ConnectToServer(int)));
-    ui->ServerLabel->setText(QString("%1").arg(m_client->GetServerPort()));
->>>>>>> Stashed changes
     CreateFriendNode(m_nickname);
 }
 

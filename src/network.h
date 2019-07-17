@@ -46,10 +46,6 @@ signals:
     void UserJoined(QString nickname);
     void IncomingMessage(QString nickname, QString message);
 private slots:
-    void UpdateAddresses();
-    QList<QHostAddress> GetBroadcastAddresses();
-    QList<QHostAddress> GetIpAddresses();
-    bool IsLocalHostAddress(QHostAddress address);
     void Broadcast();
     void ReadBroadcast();
     void Disconnected();
@@ -64,8 +60,6 @@ private:
     QTimer m_broadcasttimer;
     QMultiHash<QHostAddress, Connection*> m_usersconnected;
     QString m_nickname;
-    QList<QHostAddress> m_ipaddresses;
-    QList<QHostAddress> m_broadcastaddresses;
     std::shared_ptr<Logger::Logger> m_logger;
     Server m_server;
 };
